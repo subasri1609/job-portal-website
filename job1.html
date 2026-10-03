@@ -1,0 +1,4686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HireHub - Job Portal</title>
+
+    <style>
+
+        /* =========================================
+           GLOBAL
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .primary-btn {
+            border: none;
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-1px);
+            opacity: .92;
+        }
+
+        .secondary-btn {
+            border: none;
+            background: #eef2ff;
+            color: #4338ca;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-weight: 600;
+        }
+
+        .danger-btn {
+            border: none;
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .success-btn {
+            border: none;
+            background: #dcfce7;
+            color: #15803d;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           LOGIN / REGISTER
+        ========================================= */
+
+        .auth-page {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(37,99,235,.95),
+                    rgba(124,58,237,.95)
+                );
+        }
+
+        .auth-card {
+            width: 430px;
+            max-width: 100%;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 25px 60px rgba(0,0,0,.25);
+        }
+
+        .auth-logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+        .auth-logo span {
+            color: #7c3aed;
+        }
+
+        .auth-card h1 {
+            margin-top: 25px;
+            font-size: 28px;
+        }
+
+        .auth-card > p {
+            color: #64748b;
+            margin-top: 8px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border: 1px solid #dbe3ef;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37,99,235,.08);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+        }
+
+        .auth-switch span {
+            color: #2563eb;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           APPLICATION LAYOUT
+        ========================================= */
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+
+            width: 255px;
+
+            background: #111827;
+
+            color: white;
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            padding: 25px 15px;
+
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            padding: 0 12px 25px;
+
+            color: white;
+        }
+
+        .sidebar-logo span {
+            color: #a78bfa;
+        }
+
+        .menu-title {
+
+            font-size: 11px;
+
+            color: #94a3b8;
+
+            margin: 20px 12px 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+
+            padding: 12px 14px;
+
+            margin: 5px 0;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            display: flex;
+
+            gap: 12px;
+
+            align-items: center;
+
+            transition: .2s;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+        }
+
+        .logout {
+            margin-top: 25px;
+        }
+
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        .main {
+
+            margin-left: 255px;
+
+            width:
+                calc(100% - 255px);
+        }
+
+
+        /* =========================================
+           TOPBAR
+        ========================================= */
+
+        .topbar {
+
+            height: 72px;
+
+            background: white;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            padding: 0 30px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 20;
+        }
+
+        .page-title {
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+        .user-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-weight: 600;
+        }
+
+        .avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           CONTENT
+        ========================================= */
+
+        .content {
+            padding: 30px;
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            color: white;
+
+            padding: 35px;
+
+            border-radius: 20px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 15px 35px rgba(37,99,235,.18);
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            opacity: .9;
+        }
+
+        .search-box {
+
+            margin-top: 25px;
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr 1fr auto;
+
+            gap: 10px;
+        }
+
+        .search-box input,
+        .search-box select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            outline: none;
+        }
+
+
+        /* =========================================
+           STAT CARDS
+        ========================================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,.05);
+        }
+
+        .stat-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 12px;
+
+            background: #eef2ff;
+
+            color: #4338ca;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .stat-card h2 {
+
+            margin-top: 15px;
+
+            font-size: 28px;
+        }
+
+        .stat-card p {
+
+            color: #64748b;
+
+            margin-top: 4px;
+        }
+
+
+        /* =========================================
+           SECTIONS
+        ========================================= */
+
+        .section {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,.04);
+        }
+
+        .section-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+        }
+
+
+        /* =========================================
+           JOB CARDS
+        ========================================= */
+
+        .jobs-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .job-card {
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            padding: 20px;
+
+            background: white;
+
+            transition: .25s;
+        }
+
+        .job-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 12px 25px rgba(0,0,0,.08);
+        }
+
+        .company-logo {
+
+            width: 50px;
+
+            height: 50px;
+
+            border-radius: 12px;
+
+            background: #eef2ff;
+
+            color: #4338ca;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+
+            margin-bottom: 15px;
+        }
+
+        .job-card h3 {
+            margin-bottom: 5px;
+        }
+
+        .company-name {
+
+            color: #64748b;
+
+            margin-bottom: 14px;
+        }
+
+        .job-meta {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 7px;
+
+            margin: 12px 0;
+        }
+
+        .badge {
+
+            background: #f1f5f9;
+
+            padding: 6px 9px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+            color: #475569;
+        }
+
+        .job-actions {
+
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 15px;
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse:
+                collapse;
+        }
+
+        th,
+        td {
+
+            padding: 14px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            text-align: left;
+        }
+
+        th {
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================================
+           PROFILE
+        ========================================= */
+
+        .profile-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                280px 1fr;
+
+            gap: 25px;
+        }
+
+        .profile-card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            text-align: center;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,.04);
+        }
+
+        .profile-avatar {
+
+            width: 100px;
+
+            height: 100px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 35px;
+
+            font-weight: 700;
+        }
+
+        .skills {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 10px;
+        }
+
+        .skill {
+
+            padding: 7px 10px;
+
+            background: #eef2ff;
+
+            color: #4338ca;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status {
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .status.applied {
+
+            background: #dbeafe;
+
+            color: #1d4ed8;
+        }
+
+        .status.shortlisted {
+
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+        .status.rejected {
+
+            background: #fee2e2;
+
+            color: #dc2626;
+        }
+
+        .status.interview {
+
+            background: #fef3c7;
+
+            color: #b45309;
+        }
+
+        .status.active {
+
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        /* =========================================
+           MODAL
+        ========================================= */
+
+        .modal {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(15,23,42,.65);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+
+            z-index: 100;
+        }
+
+        .modal-box {
+
+            width: 550px;
+
+            max-width: 100%;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 25px;
+        }
+
+        .modal-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .close {
+
+            border: none;
+
+            background: #f1f5f9;
+
+            width: 35px;
+
+            height: 35px;
+
+            border-radius: 50%;
+        }
+
+
+        /* =========================================
+           ADMIN CARDS
+        ========================================= */
+
+        .admin-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .admin-box {
+
+            padding: 25px;
+
+            border-radius: 14px;
+        }
+
+        .admin-box.blue {
+            background: #eff6ff;
+        }
+
+        .admin-box.green {
+            background: #f0fdf4;
+        }
+
+        .admin-box.purple {
+            background: #faf5ff;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media(max-width:1100px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .jobs-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .search-box {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+        @media(max-width:800px) {
+
+            .sidebar {
+
+                width: 70px;
+            }
+
+            .sidebar-logo {
+
+                font-size: 0;
+
+                text-align: center;
+            }
+
+            .sidebar-logo:first-letter {
+
+                font-size: 25px;
+            }
+
+            .menu-item span,
+            .menu-title {
+
+                display: none;
+            }
+
+            .menu-item {
+
+                justify-content: center;
+            }
+
+            .main {
+
+                margin-left: 70px;
+
+                width:
+                    calc(100% - 70px);
+            }
+
+            .profile-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .admin-grid {
+
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:600px) {
+
+            .content {
+
+                padding: 15px;
+            }
+
+            .topbar {
+
+                padding: 0 15px;
+            }
+
+            .user-info span {
+
+                display: none;
+            }
+
+            .jobs-grid,
+            .stats {
+
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+
+                padding: 25px;
+            }
+
+            .hero h1 {
+
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<div id="loginPage" class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            Hire<span>Hub</span>
+        </div>
+
+        <h1>Welcome Back 👋</h1>
+
+        <p>
+            Login to continue to your HireHub dashboard.
+        </p>
+
+
+        <div class="form-group">
+
+            <label>Your Name</label>
+
+            <input
+                id="loginName"
+                type="text"
+                placeholder="Enter your name"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <input
+                id="loginEmail"
+                type="email"
+                placeholder="Enter your email"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Password</label>
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Enter your password"
+            >
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            style="width:100%"
+            onclick="login()">
+
+            Login
+
+        </button>
+
+
+        <div class="auth-switch">
+
+            Don't have an account?
+
+            <span onclick="showRegister()">
+                Register
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     REGISTER PAGE
+===================================================== -->
+
+<div id="registerPage"
+     class="auth-page hidden">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            Hire<span>Hub</span>
+        </div>
+
+        <h1>Create Account</h1>
+
+        <p>
+            Create your HireHub account.
+        </p>
+
+
+        <div class="form-group">
+
+            <label>Full Name</label>
+
+            <input
+                id="regName"
+                placeholder="Enter your full name"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <input
+                id="regEmail"
+                type="email"
+                placeholder="Enter your email"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Password</label>
+
+            <input
+                id="regPassword"
+                type="password"
+                placeholder="Create password"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Account Type</label>
+
+            <select id="regRole">
+
+                <option value="candidate">
+                    Job Seeker
+                </option>
+
+                <option value="recruiter">
+                    Recruiter
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            style="width:100%"
+            onclick="register()">
+
+            Create Account
+
+        </button>
+
+
+        <div class="auth-switch">
+
+            Already have an account?
+
+            <span onclick="showLogin()">
+                Login
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN APPLICATION
+===================================================== -->
+
+<div id="app" class="app hidden">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            Hire<span>Hub</span>
+
+        </div>
+
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+
+        <div
+            class="menu-item active"
+            onclick="showPage('dashboard', this)">
+
+            🏠
+            <span>Dashboard</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="showPage('jobs', this)">
+
+            💼
+            <span>Find Jobs</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="showPage('applications', this)">
+
+            📋
+            <span>Applications</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="showPage('profile', this)">
+
+            👤
+            <span>My Profile</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="showPage('resume', this)">
+
+            📄
+            <span>My Resume</span>
+
+        </div>
+
+
+        <div class="menu-title">
+            Recruiter
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="showPage('recruiter', this)">
+
+            🧑‍💼
+            <span>Recruiter Dashboard</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="showPage('company', this)">
+
+            🏢
+            <span>Company Profile</span>
+
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="showPage('manageJobs', this)">
+
+            ⚙️
+            <span>Manage Jobs</span>
+
+        </div>
+
+
+        <div class="menu-title">
+            Administration
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="showPage('admin', this)">
+
+            📊
+            <span>Admin Dashboard</span>
+
+        </div>
+
+
+        <div
+            class="menu-item logout"
+            onclick="logout()">
+
+            🚪
+            <span>Logout</span>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div
+                class="page-title"
+                id="pageTitle">
+
+                Dashboard
+
+            </div>
+
+
+            <div class="user-info">
+
+                <span id="headerName">
+                    User
+                </span>
+
+                <div
+                    class="avatar"
+                    id="headerAvatar">
+
+                    U
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================= -->
+
+            <section
+                id="dashboard"
+                class="page">
+
+
+                <div class="hero">
+
+                    <h1>
+
+                        Welcome,
+                        <span id="welcomeName">
+                            User
+                        </span>! 🚀
+
+                    </h1>
+
+
+                    <p>
+
+                        Find your next opportunity
+                        and build your career with HireHub.
+
+                    </p>
+
+
+                    <div class="search-box">
+
+
+                        <input
+                            id="dashboardSearch"
+                            placeholder="Job title, skill or keyword"
+                        >
+
+
+                        <select
+                            id="dashboardLocation">
+
+                            <option value="">
+                                Location
+                            </option>
+
+                            <option>
+                                Chennai
+                            </option>
+
+                            <option>
+                                Bangalore
+                            </option>
+
+                            <option>
+                                Hyderabad
+                            </option>
+
+                            <option>
+                                Mumbai
+                            </option>
+
+                            <option>
+                                Remote
+                            </option>
+
+                        </select>
+
+
+                        <select>
+
+                            <option>
+                                Experience
+                            </option>
+
+                            <option>
+                                Fresher
+                            </option>
+
+                            <option>
+                                1-3 Years
+                            </option>
+
+                            <option>
+                                3-5 Years
+                            </option>
+
+                            <option>
+                                5+ Years
+                            </option>
+
+                        </select>
+
+
+                        <select>
+
+                            <option>
+                                Salary
+                            </option>
+
+                            <option>
+                                ₹3-5 LPA
+                            </option>
+
+                            <option>
+                                ₹5-10 LPA
+                            </option>
+
+                            <option>
+                                ₹10-15 LPA
+                            </option>
+
+                            <option>
+                                ₹15+ LPA
+                            </option>
+
+                        </select>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="searchJobs()">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATS -->
+
+                <div class="stats">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            💼
+                        </div>
+
+                        <h2>
+                            1,248
+                        </h2>
+
+                        <p>
+                            Available Jobs
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📨
+                        </div>
+
+                        <h2 id="applicationCount">
+                            3
+                        </h2>
+
+                        <p>
+                            Applications
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            ⭐
+                        </div>
+
+                        <h2>
+                            3
+                        </h2>
+
+                        <p>
+                            Shortlisted
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            🏢
+                        </div>
+
+                        <h2>
+                            428
+                        </h2>
+
+                        <p>
+                            Companies
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECOMMENDED JOBS -->
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <h2>
+                            Recommended Jobs
+                        </h2>
+
+                        <button
+                            class="secondary-btn"
+                            onclick="showPage('jobs')">
+
+                            View All
+
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="recommendedJobs"
+                        class="jobs-grid">
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FIND JOBS
+            ================================================= -->
+
+            <section
+                id="jobs"
+                class="page hidden">
+
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <h2>
+                            Search Jobs
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        class="search-box"
+                        style="
+                        grid-template-columns:
+                        2fr 1fr 1fr 1fr auto;
+                        ">
+
+
+                        <input
+                            id="jobKeyword"
+                            placeholder="Search jobs, company or skills"
+                        >
+
+
+                        <select id="jobLocation">
+
+                            <option value="">
+                                All Locations
+                            </option>
+
+                            <option>
+                                Chennai
+                            </option>
+
+                            <option>
+                                Bangalore
+                            </option>
+
+                            <option>
+                                Hyderabad
+                            </option>
+
+                            <option>
+                                Mumbai
+                            </option>
+
+                            <option>
+                                Remote
+                            </option>
+
+                        </select>
+
+
+                        <select id="jobSalary">
+
+                            <option value="">
+                                Any Salary
+                            </option>
+
+                            <option value="5">
+                                5+ LPA
+                            </option>
+
+                            <option value="8">
+                                8+ LPA
+                            </option>
+
+                            <option value="10">
+                                10+ LPA
+                            </option>
+
+                            <option value="15">
+                                15+ LPA
+                            </option>
+
+                        </select>
+
+
+                        <select id="jobExperience">
+
+                            <option value="">
+                                Any Experience
+                            </option>
+
+                            <option>
+                                Fresher
+                            </option>
+
+                            <option>
+                                1-3 Years
+                            </option>
+
+                            <option>
+                                3-5 Years
+                            </option>
+
+                            <option>
+                                5+ Years
+                            </option>
+
+                        </select>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="filterJobs()">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="jobsList"
+                    class="jobs-grid">
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 APPLICATIONS
+            ================================================= -->
+
+            <section
+                id="applications"
+                class="page hidden">
+
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <h2>
+                            My Applications
+                        </h2>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Job
+                                    </th>
+
+                                    <th>
+                                        Company
+                                    </th>
+
+                                    <th>
+                                        Applied Date
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="applicationTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PROFILE
+            ================================================= -->
+
+            <section
+                id="profile"
+                class="page hidden">
+
+
+                <div class="profile-grid">
+
+
+                    <div class="profile-card">
+
+                        <div
+                            class="profile-avatar"
+                            id="profileAvatar">
+
+                            U
+
+                        </div>
+
+
+                        <h2
+                            style="margin-top:15px"
+                            id="profileName">
+
+                            User
+
+                        </h2>
+
+
+                        <p
+                            style="color:#64748b">
+
+                            Full Stack Developer
+
+                        </p>
+
+
+                        <br>
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="openProfileModal()">
+
+                            Edit Profile
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="section">
+
+                        <div class="section-header">
+
+                            <h2>
+                                Personal Information
+                            </h2>
+
+                        </div>
+
+
+                        <p>
+
+                            <strong>
+                                Name:
+                            </strong>
+
+                            <span id="profileInfoName">
+                                User
+                            </span>
+
+                        </p>
+
+
+                        <br>
+
+
+                        <p>
+
+                            <strong>
+                                Email:
+                            </strong>
+
+                            <span id="profileEmail">
+                                user@example.com
+                            </span>
+
+                        </p>
+
+
+                        <br>
+
+
+                        <p>
+
+                            <strong>
+                                Phone:
+                            </strong>
+
+                            +91 98765 43210
+
+                        </p>
+
+
+                        <br>
+
+
+                        <p>
+
+                            <strong>
+                                Location:
+                            </strong>
+
+                            Chennai, India
+
+                        </p>
+
+
+                        <br>
+
+
+                        <p>
+
+                            <strong>
+                                Experience:
+                            </strong>
+
+                            2 Years
+
+                        </p>
+
+
+                        <br>
+
+
+                        <h3>
+                            Skills
+                        </h3>
+
+
+                        <div class="skills">
+
+                            <span class="skill">
+                                Java
+                            </span>
+
+                            <span class="skill">
+                                JavaScript
+                            </span>
+
+                            <span class="skill">
+                                HTML
+                            </span>
+
+                            <span class="skill">
+                                CSS
+                            </span>
+
+                            <span class="skill">
+                                SQL
+                            </span>
+
+                            <span class="skill">
+                                React
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RESUME
+            ================================================= -->
+
+            <section
+                id="resume"
+                class="page hidden">
+
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <h2>
+                            My Resume
+                        </h2>
+
+                        <button
+                            class="primary-btn"
+                            onclick="openResumeModal()">
+
+                            Update Resume
+
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        style="
+                        padding:20px;
+                        background:#f8fafc;
+                        border-radius:12px;
+                        ">
+
+
+                        <h2 id="resumeName">
+                            User
+                        </h2>
+
+
+                        <p>
+
+                            Full Stack Developer |
+                            Java |
+                            JavaScript |
+                            SQL
+
+                        </p>
+
+
+                        <br>
+
+
+                        <h3>
+                            Professional Summary
+                        </h3>
+
+
+                        <p
+                            style="
+                            margin-top:8px;
+                            color:#64748b;
+                            ">
+
+                            Passionate software developer
+                            with experience building
+                            modern web applications.
+
+                        </p>
+
+
+                        <br>
+
+
+                        <h3>
+                            Experience
+                        </h3>
+
+
+                        <p style="margin-top:8px">
+
+                            Software Developer -
+                            2 Years
+
+                        </p>
+
+
+                        <br>
+
+
+                        <h3>
+                            Education
+                        </h3>
+
+
+                        <p style="margin-top:8px">
+
+                            B.Tech Computer Science
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RECRUITER DASHBOARD
+            ================================================= -->
+
+            <section
+                id="recruiter"
+                class="page hidden">
+
+
+                <div class="stats">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📢
+                        </div>
+
+                        <h2>
+                            12
+                        </h2>
+
+                        <p>
+                            Active Jobs
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            👥
+                        </div>
+
+                        <h2>
+                            184
+                        </h2>
+
+                        <p>
+                            Total Applicants
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            ⭐
+                        </div>
+
+                        <h2>
+                            35
+                        </h2>
+
+                        <p>
+                            Shortlisted
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            🤝
+                        </div>
+
+                        <h2>
+                            8
+                        </h2>
+
+                        <p>
+                            Hired
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <h2>
+                            Recent Applications
+                        </h2>
+
+                        <button
+                            class="primary-btn"
+                            onclick="openJobModal()">
+
+                            + Post New Job
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Candidate
+                                    </th>
+
+                                    <th>
+                                        Job
+                                    </th>
+
+                                    <th>
+                                        Experience
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                <tr>
+
+                                    <td>
+                                        Rahul Kumar
+                                    </td>
+
+                                    <td>
+                                        Java Developer
+                                    </td>
+
+                                    <td>
+                                        2 Years
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="status applied">
+
+                                            Applied
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="success-btn"
+                                            onclick="
+                                            candidateAction(
+                                                this,
+                                                'Shortlisted'
+                                            )">
+
+                                            Shortlist
+
+                                        </button>
+
+
+                                        <button
+                                            class="danger-btn"
+                                            onclick="
+                                            candidateAction(
+                                                this,
+                                                'Rejected'
+                                            )">
+
+                                            Reject
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        Priya Sharma
+                                    </td>
+
+                                    <td>
+                                        Frontend Developer
+                                    </td>
+
+                                    <td>
+                                        3 Years
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="status interview">
+
+                                            Interview
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="success-btn">
+
+                                            View
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        Arun Kumar
+                                    </td>
+
+                                    <td>
+                                        Backend Developer
+                                    </td>
+
+                                    <td>
+                                        4 Years
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="status shortlisted">
+
+                                            Shortlisted
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="success-btn">
+
+                                            View
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 COMPANY PROFILE
+            ================================================= -->
+
+            <section
+                id="company"
+                class="page hidden">
+
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <h2>
+                            Company Profile
+                        </h2>
+
+                        <button
+                            class="primary-btn"
+                            onclick="editCompany()">
+
+                            Edit Company
+
+                        </button>
+
+                    </div>
+
+
+                    <h1>
+                        TechNova Solutions
+                    </h1>
+
+
+                    <p
+                        style="
+                        color:#64748b;
+                        margin-top:7px;
+                        ">
+
+                        Information Technology &
+                        Software
+
+                    </p>
+
+
+                    <br>
+
+
+                    <p>
+
+                        TechNova Solutions is a
+                        technology company building
+                        innovative software solutions
+                        for businesses around the world.
+
+                    </p>
+
+
+                    <br>
+
+
+                    <div class="skills">
+
+                        <span class="skill">
+                            Software
+                        </span>
+
+                        <span class="skill">
+                            Cloud
+                        </span>
+
+                        <span class="skill">
+                            AI
+                        </span>
+
+                        <span class="skill">
+                            Web Development
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MANAGE JOBS
+            ================================================= -->
+
+            <section
+                id="manageJobs"
+                class="page hidden">
+
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <h2>
+                            Manage Job Postings
+                        </h2>
+
+                        <button
+                            class="primary-btn"
+                            onclick="openJobModal()">
+
+                            + Post Job
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Job Title
+                                    </th>
+
+                                    <th>
+                                        Location
+                                    </th>
+
+                                    <th>
+                                        Salary
+                                    </th>
+
+                                    <th>
+                                        Applicants
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="manageJobsTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 ADMIN DASHBOARD
+            ================================================= -->
+
+            <section
+                id="admin"
+                class="page hidden">
+
+
+                <div class="stats">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            👤
+                        </div>
+
+                        <h2>
+                            24,580
+                        </h2>
+
+                        <p>
+                            Users
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            🏢
+                        </div>
+
+                        <h2>
+                            1,245
+                        </h2>
+
+                        <p>
+                            Companies
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            💼
+                        </div>
+
+                        <h2>
+                            5,840
+                        </h2>
+
+                        <p>
+                            Jobs
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📨
+                        </div>
+
+                        <h2>
+                            38,420
+                        </h2>
+
+                        <p>
+                            Applications
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <h2>
+                            Platform Overview
+                        </h2>
+
+                    </div>
+
+
+                    <div class="admin-grid">
+
+
+                        <div class="admin-box blue">
+
+                            <h3>
+                                Active Jobs
+                            </h3>
+
+                            <h1 style="margin-top:10px">
+                                4,280
+                            </h1>
+
+                        </div>
+
+
+                        <div class="admin-box green">
+
+                            <h3>
+                                Successful Hires
+                            </h3>
+
+                            <h1 style="margin-top:10px">
+                                2,840
+                            </h1>
+
+                        </div>
+
+
+                        <div class="admin-box purple">
+
+                            <h3>
+                                Pending Reviews
+                            </h3>
+
+                            <h1 style="margin-top:10px">
+                                184
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     PROFILE MODAL
+===================================================== -->
+
+<div
+    id="profileModal"
+    class="modal hidden">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Edit Profile
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal('profileModal')">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                id="editProfileName"
+                value="User"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Job Title
+            </label>
+
+            <input
+                value="Full Stack Developer"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Location
+            </label>
+
+            <input
+                value="Chennai, India"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Experience
+            </label>
+
+            <select>
+
+                <option>
+                    Fresher
+                </option>
+
+                <option selected>
+                    1-3 Years
+                </option>
+
+                <option>
+                    3-5 Years
+                </option>
+
+                <option>
+                    5+ Years
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="saveProfile()">
+
+            Save Profile
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     RESUME MODAL
+===================================================== -->
+
+<div
+    id="resumeModal"
+    class="modal hidden">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Update Resume
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal('resumeModal')">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Upload Resume
+            </label>
+
+            <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Professional Summary
+            </label>
+
+            <textarea
+                rows="5"
+                placeholder="Write your professional summary">
+            </textarea>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="
+            saveModal('resumeModal')">
+
+            Update Resume
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     POST JOB MODAL
+===================================================== -->
+
+<div
+    id="jobModal"
+    class="modal hidden">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Post New Job
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal('jobModal')">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Job Title
+            </label>
+
+            <input
+                id="newJobTitle"
+                placeholder="Java Developer"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Company
+            </label>
+
+            <input
+                id="newJobCompany"
+                placeholder="Company name"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Location
+            </label>
+
+            <input
+                id="newJobLocation"
+                placeholder="Chennai"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Salary
+            </label>
+
+            <input
+                id="newJobSalary"
+                placeholder="8 LPA"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Experience
+            </label>
+
+            <select id="newJobExperience">
+
+                <option>
+                    Fresher
+                </option>
+
+                <option>
+                    1-3 Years
+                </option>
+
+                <option>
+                    3-5 Years
+                </option>
+
+                <option>
+                    5+ Years
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Skills
+            </label>
+
+            <input
+                id="newJobSkills"
+                placeholder="Java, SQL, Spring"
+            >
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="createJob()">
+
+            Publish Job
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   JOB DATA
+===================================================== */
+
+let jobs = [
+
+    {
+        id: 1,
+        title: "Java Developer",
+        company: "TechNova Solutions",
+        location: "Chennai",
+        salary: 8,
+        experience: "1-3 Years",
+        skills: "Java, Spring, SQL"
+    },
+
+    {
+        id: 2,
+        title: "Frontend Developer",
+        company: "Innovate Labs",
+        location: "Bangalore",
+        salary: 10,
+        experience: "1-3 Years",
+        skills: "HTML, CSS, JavaScript, React"
+    },
+
+    {
+        id: 3,
+        title: "Backend Developer",
+        company: "CloudWorks",
+        location: "Hyderabad",
+        salary: 12,
+        experience: "3-5 Years",
+        skills: "Node.js, Java, SQL"
+    },
+
+    {
+        id: 4,
+        title: "Software Engineer",
+        company: "Microsoft",
+        location: "Remote",
+        salary: 15,
+        experience: "3-5 Years",
+        skills: "Java, Azure, SQL"
+    },
+
+    {
+        id: 5,
+        title: "Python Developer",
+        company: "DataTech",
+        location: "Mumbai",
+        salary: 9,
+        experience: "1-3 Years",
+        skills: "Python, Django, SQL"
+    },
+
+    {
+        id: 6,
+        title: "Full Stack Developer",
+        company: "StartupHub",
+        location: "Chennai",
+        salary: 11,
+        experience: "3-5 Years",
+        skills: "JavaScript, React, Node.js"
+    }
+
+];
+
+
+let applications = [
+
+    {
+        job: "Java Developer",
+        company: "TechNova Solutions",
+        date: "20 Sep 2026",
+        status: "Applied"
+    },
+
+    {
+        job: "Frontend Developer",
+        company: "Innovate Labs",
+        date: "18 Sep 2026",
+        status: "Shortlisted"
+    },
+
+    {
+        job: "Backend Developer",
+        company: "CloudWorks",
+        date: "15 Sep 2026",
+        status: "Interview"
+    }
+
+];
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+function showRegister() {
+
+    document
+        .getElementById("loginPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("registerPage")
+        .classList.remove("hidden");
+
+}
+
+
+function showLogin() {
+
+    document
+        .getElementById("registerPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("loginPage")
+        .classList.remove("hidden");
+
+}
+
+
+function register() {
+
+    let name =
+        document
+        .getElementById("regName")
+        .value
+        .trim();
+
+    let email =
+        document
+        .getElementById("regEmail")
+        .value
+        .trim();
+
+    let password =
+        document
+        .getElementById("regPassword")
+        .value
+        .trim();
+
+    let role =
+        document
+        .getElementById("regRole")
+        .value;
+
+
+    if (!name || !email || !password) {
+
+        alert(
+            "Please fill all required fields."
+        );
+
+        return;
+    }
+
+
+    let user = {
+
+        name: name,
+
+        email: email,
+
+        role: role
+
+    };
+
+
+    localStorage.setItem(
+        "hireHubUser",
+        JSON.stringify(user)
+    );
+
+
+    alert(
+        "Registration successful! Please login."
+    );
+
+
+    document
+        .getElementById("loginName")
+        .value = name;
+
+
+    document
+        .getElementById("loginEmail")
+        .value = email;
+
+
+    showLogin();
+
+}
+
+
+function login() {
+
+    let name =
+        document
+        .getElementById("loginName")
+        .value
+        .trim();
+
+    let email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+    let password =
+        document
+        .getElementById("loginPassword")
+        .value
+        .trim();
+
+
+    if (!name) {
+
+        alert(
+            "Please enter your name."
+        );
+
+        return;
+    }
+
+
+    if (!email) {
+
+        alert(
+            "Please enter your email."
+        );
+
+        return;
+    }
+
+
+    if (!password) {
+
+        alert(
+            "Please enter your password."
+        );
+
+        return;
+    }
+
+
+    let existingUser =
+        JSON.parse(
+            localStorage.getItem(
+                "hireHubUser"
+            )
+        );
+
+
+    let user = {
+
+        name: name,
+
+        email: email,
+
+        role:
+            existingUser
+                ? existingUser.role
+                : "candidate"
+
+    };
+
+
+    localStorage.setItem(
+        "hireHubUser",
+        JSON.stringify(user)
+    );
+
+
+    document
+        .getElementById("loginPage")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("registerPage")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+
+    updateUserInterface();
+
+    loadDashboard();
+
+}
+
+
+/* =====================================================
+   DYNAMIC USER INTERFACE
+===================================================== */
+
+function updateUserInterface() {
+
+    let user =
+        JSON.parse(
+            localStorage.getItem(
+                "hireHubUser"
+            )
+        );
+
+
+    if (!user) {
+
+        return;
+
+    }
+
+
+    let name =
+        user.name || "User";
+
+
+    /* Header */
+
+    document
+        .getElementById("headerName")
+        .innerText = name;
+
+
+    document
+        .getElementById("headerAvatar")
+        .innerText =
+        getInitials(name);
+
+
+    /* Dashboard */
+
+    document
+        .getElementById("welcomeName")
+        .innerText = name;
+
+
+    /* Profile */
+
+    document
+        .getElementById("profileName")
+        .innerText = name;
+
+
+    document
+        .getElementById("profileInfoName")
+        .innerText = name;
+
+
+    document
+        .getElementById("profileAvatar")
+        .innerText =
+        getInitials(name);
+
+
+    document
+        .getElementById("resumeName")
+        .innerText = name;
+
+
+    document
+        .getElementById("profileEmail")
+        .innerText =
+        user.email || "user@example.com";
+
+
+    document
+        .getElementById("editProfileName")
+        .value = name;
+
+}
+
+
+function getInitials(name) {
+
+    let words =
+        name.trim().split(/\s+/);
+
+
+    if (words.length === 1) {
+
+        return words[0]
+            .substring(0, 2)
+            .toUpperCase();
+
+    }
+
+
+    return (
+        words[0][0] +
+        words[1][0]
+    ).toUpperCase();
+
+}
+
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(
+    pageId,
+    element = null
+) {
+
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.add("hidden");
+
+        });
+
+
+    document
+        .getElementById(pageId)
+        .classList.remove("hidden");
+
+
+    document
+        .querySelectorAll(".menu-item")
+        .forEach(item => {
+
+            item.classList.remove("active");
+
+        });
+
+
+    if (element) {
+
+        element.classList.add("active");
+
+    }
+
+
+    let titles = {
+
+        dashboard: "Dashboard",
+
+        jobs: "Find Jobs",
+
+        applications:
+            "My Applications",
+
+        profile:
+            "My Profile",
+
+        resume:
+            "My Resume",
+
+        recruiter:
+            "Recruiter Dashboard",
+
+        company:
+            "Company Profile",
+
+        manageJobs:
+            "Manage Jobs",
+
+        admin:
+            "Admin Dashboard"
+
+    };
+
+
+    document
+        .getElementById("pageTitle")
+        .innerText =
+        titles[pageId];
+
+
+    if (pageId === "jobs") {
+
+        renderJobs(jobs);
+
+    }
+
+
+    if (pageId === "applications") {
+
+        renderApplications();
+
+    }
+
+
+    if (pageId === "manageJobs") {
+
+        renderManageJobs();
+
+    }
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function loadDashboard() {
+
+    renderRecommendedJobs();
+
+    renderApplications();
+
+    renderManageJobs();
+
+}
+
+
+function renderRecommendedJobs() {
+
+    let container =
+        document
+        .getElementById(
+            "recommendedJobs"
+        );
+
+
+    container.innerHTML = "";
+
+
+    jobs
+        .slice(0, 3)
+        .forEach(job => {
+
+            container.innerHTML +=
+                createJobCard(job);
+
+        });
+
+}
+
+
+/* =====================================================
+   JOB CARD
+===================================================== */
+
+function createJobCard(job) {
+
+    let initials =
+        job.company
+        .split(" ")
+        .map(word => word[0])
+        .join("")
+        .substring(0, 2)
+        .toUpperCase();
+
+
+    return `
+
+        <div class="job-card">
+
+            <div class="company-logo">
+                ${initials}
+            </div>
+
+            <h3>
+                ${job.title}
+            </h3>
+
+            <p class="company-name">
+                ${job.company}
+            </p>
+
+            <div class="job-meta">
+
+                <span class="badge">
+                    📍 ${job.location}
+                </span>
+
+                <span class="badge">
+                    💰 ₹${job.salary} LPA
+                </span>
+
+                <span class="badge">
+                    👨‍💻 ${job.experience}
+                </span>
+
+            </div>
+
+            <p
+                style="
+                color:#64748b;
+                font-size:13px;
+                ">
+
+                ${job.skills}
+
+            </p>
+
+            <div class="job-actions">
+
+                <button
+                    class="primary-btn"
+                    onclick="applyJob(${job.id})">
+
+                    Apply Now
+
+                </button>
+
+
+                <button
+                    class="secondary-btn"
+                    onclick="viewJob(${job.id})">
+
+                    View
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   RENDER JOBS
+===================================================== */
+
+function renderJobs(list) {
+
+    let container =
+        document
+        .getElementById(
+            "jobsList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    if (list.length === 0) {
+
+        container.innerHTML = `
+
+            <div
+                class="section"
+                style="
+                grid-column:1/-1;
+                text-align:center;
+                ">
+
+                <h2>
+                    No jobs found
+                </h2>
+
+                <p
+                    style="
+                    color:#64748b;
+                    margin-top:8px;
+                    ">
+
+                    Try changing your
+                    search filters.
+
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.forEach(job => {
+
+        container.innerHTML +=
+            createJobCard(job);
+
+    });
+
+}
+
+
+/* =====================================================
+   FILTER JOBS
+===================================================== */
+
+function filterJobs() {
+
+    let keyword =
+        document
+        .getElementById(
+            "jobKeyword"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    let location =
+        document
+        .getElementById(
+            "jobLocation"
+        )
+        .value;
+
+
+    let salary =
+        document
+        .getElementById(
+            "jobSalary"
+        )
+        .value;
+
+
+    let experience =
+        document
+        .getElementById(
+            "jobExperience"
+        )
+        .value;
+
+
+    let filtered =
+        jobs.filter(job => {
+
+
+            let keywordMatch =
+
+                !keyword ||
+
+                job.title
+                    .toLowerCase()
+                    .includes(keyword)
+
+                ||
+
+                job.company
+                    .toLowerCase()
+                    .includes(keyword)
+
+                ||
+
+                job.skills
+                    .toLowerCase()
+                    .includes(keyword);
+
+
+            let locationMatch =
+
+                !location ||
+                job.location === location;
+
+
+            let salaryMatch =
+
+                !salary ||
+                job.salary >=
+                Number(salary);
+
+
+            let experienceMatch =
+
+                !experience ||
+                job.experience === experience;
+
+
+            return (
+
+                keywordMatch &&
+
+                locationMatch &&
+
+                salaryMatch &&
+
+                experienceMatch
+
+            );
+
+        });
+
+
+    renderJobs(filtered);
+
+}
+
+
+/* =====================================================
+   DASHBOARD SEARCH
+===================================================== */
+
+function searchJobs() {
+
+    let keyword =
+        document
+        .getElementById(
+            "dashboardSearch"
+        )
+        .value;
+
+
+    let location =
+        document
+        .getElementById(
+            "dashboardLocation"
+        )
+        .value;
+
+
+    document
+        .getElementById(
+            "jobKeyword"
+        )
+        .value = keyword;
+
+
+    document
+        .getElementById(
+            "jobLocation"
+        )
+        .value = location;
+
+
+    showPage("jobs");
+
+
+    filterJobs();
+
+}
+
+
+/* =====================================================
+   APPLY FOR JOB
+===================================================== */
+
+function applyJob(id) {
+
+    let job =
+        jobs.find(
+            j => j.id === id
+        );
+
+
+    if (!job) {
+
+        return;
+
+    }
+
+
+    let alreadyApplied =
+        applications.some(
+            app =>
+                app.job === job.title
+        );
+
+
+    if (alreadyApplied) {
+
+        alert(
+            "You already applied for this job."
+        );
+
+        return;
+
+    }
+
+
+    let today =
+        new Date()
+        .toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+
+    applications.push({
+
+        job: job.title,
+
+        company: job.company,
+
+        date: today,
+
+        status: "Applied"
+
+    });
+
+
+    alert(
+        "Application submitted successfully!"
+    );
+
+
+    updateApplicationCount();
+
+    renderApplications();
+
+}
+
+
+function updateApplicationCount() {
+
+    document
+        .getElementById(
+            "applicationCount"
+        )
+        .innerText =
+        applications.length;
+
+}
+
+
+function viewJob(id) {
+
+    let job =
+        jobs.find(
+            j => j.id === id
+        );
+
+
+    if (!job) {
+
+        return;
+
+    }
+
+
+    alert(
+
+        "JOB DETAILS\n\n" +
+
+        "Position: " +
+        job.title +
+
+        "\nCompany: " +
+        job.company +
+
+        "\nLocation: " +
+        job.location +
+
+        "\nSalary: ₹" +
+        job.salary +
+        " LPA" +
+
+        "\nExperience: " +
+        job.experience +
+
+        "\nSkills: " +
+        job.skills
+
+    );
+
+}
+
+
+/* =====================================================
+   APPLICATION TABLE
+===================================================== */
+
+function renderApplications() {
+
+    let table =
+        document
+        .getElementById(
+            "applicationTable"
+        );
+
+
+    if (!table) {
+
+        return;
+
+    }
+
+
+    table.innerHTML = "";
+
+
+    applications.forEach(app => {
+
+
+        let statusClass =
+            app.status
+            .toLowerCase()
+            .replace(/\s/g, "");
+
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>
+
+                    <strong>
+                        ${app.job}
+                    </strong>
+
+                </td>
+
+                <td>
+                    ${app.company}
+                </td>
+
+                <td>
+                    ${app.date}
+                </td>
+
+                <td>
+
+                    <span
+                        class="status
+                        ${statusClass}">
+
+                        ${app.status}
+
+                    </span>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    updateApplicationCount();
+
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function openProfileModal() {
+
+    let user =
+        JSON.parse(
+            localStorage.getItem(
+                "hireHubUser"
+            )
+        );
+
+
+    if (user) {
+
+        document
+            .getElementById(
+                "editProfileName"
+            )
+            .value =
+            user.name;
+
+    }
+
+
+    document
+        .getElementById(
+            "profileModal"
+        )
+        .classList
+        .remove("hidden");
+
+}
+
+
+function saveProfile() {
+
+    let newName =
+        document
+        .getElementById(
+            "editProfileName"
+        )
+        .value
+        .trim();
+
+
+    if (!newName) {
+
+        alert(
+            "Please enter your name."
+        );
+
+        return;
+
+    }
+
+
+    let user =
+        JSON.parse(
+            localStorage.getItem(
+                "hireHubUser"
+            )
+        );
+
+
+    user.name = newName;
+
+
+    localStorage.setItem(
+        "hireHubUser",
+        JSON.stringify(user)
+    );
+
+
+    updateUserInterface();
+
+
+    closeModal(
+        "profileModal"
+    );
+
+
+    alert(
+        "Profile updated successfully!"
+    );
+
+}
+
+
+/* =====================================================
+   RESUME
+===================================================== */
+
+function openResumeModal() {
+
+    document
+        .getElementById(
+            "resumeModal"
+        )
+        .classList
+        .remove("hidden");
+
+}
+
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+function closeModal(id) {
+
+    document
+        .getElementById(id)
+        .classList
+        .add("hidden");
+
+}
+
+
+function saveModal(id) {
+
+    alert(
+        "Information updated successfully!"
+    );
+
+
+    closeModal(id);
+
+}
+
+
+/* =====================================================
+   RECRUITER
+===================================================== */
+
+function candidateAction(
+    button,
+    action
+) {
+
+    let row =
+        button.closest("tr");
+
+
+    let status =
+        row.querySelector(
+            ".status"
+        );
+
+
+    status.innerText =
+        action;
+
+
+    status.className =
+        "status " +
+        (
+            action === "Shortlisted"
+                ? "shortlisted"
+                : "rejected"
+        );
+
+
+    alert(
+        "Candidate marked as " +
+        action
+    );
+
+}
+
+
+/* =====================================================
+   POST JOB
+===================================================== */
+
+function openJobModal() {
+
+    document
+        .getElementById(
+            "jobModal"
+        )
+        .classList
+        .remove("hidden");
+
+}
+
+
+function createJob() {
+
+    let title =
+        document
+        .getElementById(
+            "newJobTitle"
+        )
+        .value
+        .trim();
+
+
+    let company =
+        document
+        .getElementById(
+            "newJobCompany"
+        )
+        .value
+        .trim();
+
+
+    let location =
+        document
+        .getElementById(
+            "newJobLocation"
+        )
+        .value
+        .trim();
+
+
+    let salary =
+        document
+        .getElementById(
+            "newJobSalary"
+        )
+        .value
+        .trim();
+
+
+    let experience =
+        document
+        .getElementById(
+            "newJobExperience"
+        )
+        .value;
+
+
+    let skills =
+        document
+        .getElementById(
+            "newJobSkills"
+        )
+        .value
+        .trim();
+
+
+    if (
+        !title ||
+        !company ||
+        !location ||
+        !salary ||
+        !skills
+    ) {
+
+        alert(
+            "Please fill all job fields."
+        );
+
+        return;
+
+    }
+
+
+    let numericSalary =
+        Number(
+            salary.replace(
+                /[^0-9.]/g,
+                ""
+            )
+        );
+
+
+    jobs.push({
+
+        id: Date.now(),
+
+        title: title,
+
+        company: company,
+
+        location: location,
+
+        salary: numericSalary,
+
+        experience: experience,
+
+        skills: skills
+
+    });
+
+
+    alert(
+        "Job posted successfully!"
+    );
+
+
+    closeModal(
+        "jobModal"
+    );
+
+
+    renderManageJobs();
+
+    renderRecommendedJobs();
+
+    renderJobs(jobs);
+
+}
+
+
+/* =====================================================
+   MANAGE JOBS
+===================================================== */
+
+function renderManageJobs() {
+
+    let table =
+        document
+        .getElementById(
+            "manageJobsTable"
+        );
+
+
+    if (!table) {
+
+        return;
+
+    }
+
+
+    table.innerHTML = "";
+
+
+    jobs.forEach(job => {
+
+
+        let applicants =
+            Math.floor(
+                Math.random() * 40
+            ) + 5;
+
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>
+
+                    <strong>
+                        ${job.title}
+                    </strong>
+
+                </td>
+
+                <td>
+                    ${job.location}
+                </td>
+
+                <td>
+                    ₹${job.salary} LPA
+                </td>
+
+                <td>
+                    ${applicants}
+                </td>
+
+                <td>
+
+                    <span
+                        class="status active">
+
+                        Active
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="secondary-btn"
+                        onclick="
+                        editJob(${job.id})">
+
+                        Edit
+
+                    </button>
+
+
+                    <button
+                        class="danger-btn"
+                        onclick="
+                        deleteJob(${job.id})">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+function deleteJob(id) {
+
+    if (
+        !confirm(
+            "Are you sure you want to delete this job?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    jobs =
+        jobs.filter(
+            job => job.id !== id
+        );
+
+
+    renderManageJobs();
+
+    renderJobs(jobs);
+
+    renderRecommendedJobs();
+
+}
+
+
+function editJob(id) {
+
+    let job =
+        jobs.find(
+            j => j.id === id
+        );
+
+
+    if (!job) {
+
+        return;
+
+    }
+
+
+    let title =
+        prompt(
+            "Edit Job Title:",
+            job.title
+        );
+
+
+    if (title) {
+
+        job.title = title;
+
+
+        renderManageJobs();
+
+        renderJobs(jobs);
+
+        renderRecommendedJobs();
+
+
+        alert(
+            "Job updated successfully!"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   COMPANY
+===================================================== */
+
+function editCompany() {
+
+    let name =
+        prompt(
+            "Enter company name:",
+            "TechNova Solutions"
+        );
+
+
+    if (name) {
+
+        alert(
+            "Company profile updated successfully!"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    document
+        .getElementById(
+            "app"
+        )
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById(
+            "loginPage"
+        )
+        .classList
+        .remove("hidden");
+
+
+    document
+        .getElementById(
+            "loginPassword"
+        )
+        .value = "";
+
+}
+
+
+/* =====================================================
+   AUTO LOGIN
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+
+        let user =
+            localStorage.getItem(
+                "hireHubUser"
+            );
+
+
+        if (user) {
+
+            document
+                .getElementById(
+                    "loginPage"
+                )
+                .classList
+                .add("hidden");
+
+
+            document
+                .getElementById(
+                    "app"
+                )
+                .classList
+                .remove("hidden");
+
+
+            updateUserInterface();
+
+        }
+
+
+        renderRecommendedJobs();
+
+        renderJobs(jobs);
+
+        renderApplications();
+
+        renderManageJobs();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
